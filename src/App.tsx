@@ -19,6 +19,9 @@ function App() {
    
     const finalizedBlock=await polkadotClient.getFinalizedBlock();
     console.log(`Done!`,chainSpec,finalizedBlock);
+    console.log(
+      `Connected to ${chainSpec.name} at block ${finalizedBlock.number}.\n`,
+    );
   }
   useEffect(()=>{
 main();
