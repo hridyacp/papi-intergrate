@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { getWsProvider } from "polkadot-api/ws-provider/web";
+import { createClient, type PolkadotClient } from "polkadot-api";
 
 function App() {
+  const endpoint='wss://rpc.polkadot.io';
+  function makeClient(endpoint: string): PolkadotClient {
+    console.log(`Connecting to endpoint: ${endpoint}`);
+    const provider = getWsProvider(endpoint);
+    const client = createClient(provider);
+    return client;
+  }
+  async function main() {
+    const polkadotClient = makeClient("wss://rpc.polkadot.io");
+    console.log({ polkadotClient });
+  const chainSpec= await polkadotClient.getChainSpecData();
+   
+    const finalizedBlock=await polkadotClient.getFinalizedBlock();
+    console.log(`Done!`,chainSpec,finalizedBlock);
+  }
+  useEffect(()=>{
+main();
+  },[]);
   return (
     <div className="App">
       <header className="App-header">
